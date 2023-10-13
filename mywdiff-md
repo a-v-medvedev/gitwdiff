@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Ignore all flags
+while getopts uL: flag; do true; done
+shift $(($OPTIND - 1))
+
+wdiff -n -w '~~' -x '~~' -y '**' -z '**' "$@" | egrep -C2 --group-separator="<...>" "(\*\*)|(~~)"
+exec cmp -s "$@"
